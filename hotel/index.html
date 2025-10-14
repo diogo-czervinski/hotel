@@ -11,9 +11,8 @@
     <script src="https://kit.fontawesome.com/a2e0e6ad4b.js"
       crossorigin="anonymous"></script>
     <script>"https://cdn.jsdelivr.net/npm/disable-devtool"</script>
-    <link rel="icon" type="image/png"  href="./images/ChatGPT_Image_Oct_13__2025__10_07_38_AM-removebg-preview.png">
-
-
+    <link rel="icon" type="image/png"
+      href="./images/ChatGPT_Image_Oct_13__2025__10_07_38_AM-removebg-preview.png">
   </head>
 
   <body>
@@ -38,7 +37,7 @@
           </ul>
         </nav>
 
-        <a href="#" class="btn header-btn">Reservas</a>
+        <a href="#" class="btn header-btn" id="abrir-reserva">Reservas</a>
       </div>
     </header>
 
@@ -170,7 +169,8 @@
           <div class="footer-about">
             <img src="./images/Component 2.svg" alt="Logo Hotel Riad"
               class="footer-logo">
-            <p>Estamos na Av. Interventor Manoel Ribas, 490 <br> União da Vitória - PR</p>
+            <p>Estamos na Av. Interventor Manoel Ribas, 490 <br> União da
+              Vitória - PR</p>
           </div>
           <div class="footer-nav">
             <h4>Navegue</h4>
@@ -193,8 +193,9 @@
       </div>
     </footer>
 
-    <div class="chatbot-button" id="chatbot-button"><img
-        src="./images/Group_1-removebg-preview.png" alt></div>
+    <div class="chatbot-button" id="chatbot-button">
+      <img src="./images/Group_1-removebg-preview.png" alt>
+    </div>
 
     <div class="chatbot-window" id="chatbot-window">
       <div class="chatbot-header">
@@ -221,6 +222,143 @@
         <button id="send-btn">Enviar</button>
       </div>
     </div>
+
+    <div class="reserva-modal" id="reserva-modal">
+      <div class="reserva-content">
+        <button class="close-reserva" id="close-reserva">&times;</button>
+        <h2>Faça sua Reserva</h2>
+
+        <form id="reserva-form">
+          <div class="reserva-nome">
+            <label>
+              Seu nome:
+              <input type="text" name="nome" placeholder="Digite seu nome"
+                required>
+            </label>
+          </div>
+
+          <h3>Escolha sua Acomodação</h3>
+          <div class="reserva-opcoes">
+            <label class="reserva-opcao">
+              <input type="radio" name="acomodacao" value="Suíte Nupcial"
+                required>
+              <span>Suíte Nupcial</span>
+            </label>
+
+            <label class="reserva-opcao">
+              <input type="radio" name="acomodacao" value="Suíte Master">
+              <span>Suíte Master</span>
+            </label>
+
+            <label class="reserva-opcao">
+              <input type="radio" name="acomodacao" value="Quarto Superior">
+              <span>Quarto Superior</span>
+            </label>
+          </div>
+
+          <div class="reserva-detalhes">
+            <label>
+              Data de entrada:
+              <input type="date" name="checkin" required>
+            </label>
+
+            <label>
+              Data de saída:
+              <input type="date" name="checkout" required>
+            </label>
+
+            <label>
+              Hóspedes:
+              <input type="number" name="hospedes" min="1" max="6" value="1"
+                required>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-reserva">Reservar pelo
+            WhatsApp</button>
+        </form>
+      </div>
+    </div>
+
+  <script>
+    const abrirReservaBtn = document.getElementById("abrir-reserva");
+    const reservaModal = document.getElementById("reserva-modal");
+    const closeReservaBtn = document.getElementById("close-reserva");
+    const reservaForm = document.getElementById("reserva-form");
+
+    const hoje = new Date().toISOString().split("T")[0];
+    reservaForm.checkin.min = hoje;
+    reservaForm.checkout.min = hoje;
+
+    abrirReservaBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      reservaModal.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    });
+
+    closeReservaBtn.addEventListener("click", fecharModal);
+    window.addEventListener("click", (event) => {
+      if (event.target === reservaModal) fecharModal();
+    });
+
+    function fecharModal() {
+      reservaModal.style.display = "none";
+      document.body.style.overflow = "auto";
+      reservaForm.reset();
+      reservaForm.checkin.min = hoje;
+      reservaForm.checkout.min = hoje;
+    }
+
+    function formatarData(dataISO) {
+      if (!dataISO) return "";
+      const [ano, mes, dia] = dataISO.split("-");
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    reservaForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const nome = reservaForm.nome.value.trim();
+      const acomodacao = document.querySelector('input[name="acomodacao"]:checked')?.value;
+      const checkinValor = reservaForm.checkin.value;
+      const checkoutValor = reservaForm.checkout.value;
+      const hospedes = reservaForm.hospedes.value;
+
+      const hojeData = new Date();
+      hojeData.setHours(0, 0, 0, 0);
+
+      const checkinData = new Date(checkinValor);
+      const checkoutData = new Date(checkoutValor);
+
+      if (checkinData < hojeData) {
+        alert("A data de entrada não pode ser anterior a hoje.");
+        return;
+      }
+
+      if (checkoutData <= checkinData) {
+        alert("A data de saída deve ser depois da data de entrada.");
+        return;
+      }
+
+      const checkin = formatarData(checkinValor);
+      const checkout = formatarData(checkoutValor);
+      const numeroHotel = "554235211600";
+
+      const mensagem = 
+        `Olá! Meu nome é ${nome}.\n\n` +
+        `Gostaria de fazer uma reserva no Hotel Riad \n\n` +
+        `*Acomodação:* ${acomodacao}\n` +
+        `*Data de entrada:* ${checkin}\n` +
+        `*Data de saída:* ${checkout}\n` +
+        `*Hóspedes:* ${hospedes}\n\n` +
+        `Poderia confirmar a disponibilidade?`;
+
+      const url = `https://wa.me/${numeroHotel}?text=${encodeURIComponent(mensagem)}`;
+      window.open(url, "_blank");
+
+      fecharModal();
+    });
+  </script>
 
     <script src="./scritps/chatbot.js"></script>
     <script>
