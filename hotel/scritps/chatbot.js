@@ -13,8 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <li>Internet Gratuita de Alta Velocidade</li>
                 <li>Serviço de Quarto 24h</li>
                 <li>Estacionamento Privativo</li>
-                <li>Restaurante Gourmet</li>
-                <li>Lavanderia</li>
+                <li>Café da manhã Gourmet</li>
             </ul>
         `,
         acomodacoes: `
@@ -29,8 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
         `,
         localizacao: `
             <strong>Localização & Contato</strong><br>
-            Estamos na Av. Interventor Manoel Ribas, 490, em União da Vitória - PR.<br><br>
-            <b>Telefone/WhatsApp:</b><br> (42) 3251-1600
+            Estamos na Av. aaaaaaaaaaaaa, em União da Vitória - PR.<br><br>
+            <b>Telefone/WhatsApp:</b><br> (42) 99999-9999
         `,
         reservas: `
             Para fazer sua reserva, por favor, clique no botão <strong>"Reservas"</strong> no canto superior direito da página ou entre em contato diretamente conosco pelo WhatsApp.
@@ -89,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const resetChat = () => {
         chatMessages.innerHTML = ''; 
-        addBotMessage("Olá! Sou o assistente do Hotel Riad. Como posso ajudar?");
+        addBotMessage("Olá! Sou o assistente do Hotel Lux. Como posso ajudar?");
         chatMessages.appendChild(botMenu); 
         scrollToBottom();
     };
